@@ -1,6 +1,7 @@
 <?php
+
 $routes = [
-    'defaut' => 'index.html',
+    'defaut' => 'config/database.php',
     '404' => 'pages/404' // a changer, definir une page 404 et son emplacement
 ];
 if (isset($_GET['action'])) { // action a réaliser
@@ -11,4 +12,4 @@ if (isset($_GET['action'])) { // action a réaliser
 } else { // page par défaut
     $page = 'defaut'; // a modifier ulterieurement
 }
-require $routes[$page];
+require 'config/database.php';
