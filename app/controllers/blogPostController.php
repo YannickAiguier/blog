@@ -1,5 +1,5 @@
 <?php
-require 'app/persistences/blogPostData.php';
+//require 'ressources/views/header.tpl.php';
 
 if (filter_has_var(INPUT_GET, 'id')) {
     $id_post = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
@@ -9,3 +9,5 @@ if (filter_has_var(INPUT_GET, 'id')) {
 } else {
     printf("\nPas de numéro de post renseigné");
 }
+
+//require 'ressources/views/footer.tpl.php';
