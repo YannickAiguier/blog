@@ -1,23 +1,31 @@
 <?php
-// test de la fonction : OK
-//blogPostUpdate($pdo, "60", "Post modifié par requête simple", "Si ce poste existe c'est que ma fonction de modification de post fonctionne", "2020-01-28 15:30:00", "2020-04-12 17:17:17", "4", "1");
 
 $args = [
+    'post-id' => FILTER_SANITIZE_STRING,
     'post-title' => FILTER_SANITIZE_STRING,
     'post-text' => FILTER_SANITIZE_STRING,
     'post-start-date' => FILTER_SANITIZE_STRING,
     'post-end-date' => FILTER_SANITIZE_STRING,
     'post-degree' => FILTER_SANITIZE_STRING,
-    'post-author' => FILTER_SANITIZE_STRING];
+    'post-author' => FILTER_SANITIZE_STRING,
+    'post-select' => FILTER_SANITIZE_STRING];
 
-//tester présence $_POST (si présent alors formulaire envoyé pour modification)
+//tester présence $_POST (si présent alors le formulaire a été formulaire envoyé pour modification)
 if (!empty($_POST)) { // traiter les données du formulaire
     $result_form = filter_input_array(INPUT_POST, $args);
-    // appeler la fonction pour modification du post
-    blogPostUpdate($pdo, $result_form['post-id'], $result_form['post-title'], $result_form['post-text'], $result_form['post-start-date'], $result_form['post-end-date'], $result_form['post-degree'], $result_form['post-author']);
-    //$result_form = array_fill(0, count($result_form), '');
-    //header('Location: index.php?action=php var
-    //');
+    // si $result_form['post-select'] existe c'est que l'on est passé par blogPostUpdateSelect
+    if (isset($result_form['post-select'])) {
+        $post = blogPostByIdForUpdate($pdo, $result_form['post-id']);
+        require 'ressources/views/blogPostUpdate.tpl.php';
+    } else { // sinon le formulaire de modification a été validé
+        // appeler la fonction pour modification du post
+        blogPostUpdate($pdo, $result_form['post-id'], $result_form['post-title'], $result_form['post-text'], $result_form['post-start-date'], $result_form['post-end-date'], $result_form['post-degree'], $result_form['post-author']);
+
+        // affichage de la page de confirmation
+        $result_form = array_fill(0, count($result_form), '');
+        header('Location: index.php?action=blogpostmodify_ok');
+    }
+
 } else { // sinon afficher dans le formulaire le post demandé pour modification
     if (filter_has_var(INPUT_GET, 'id')) {
         $postId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
@@ -35,5 +43,4 @@ if (!empty($_POST)) { // traiter les données du formulaire
     } else {
         printf("\nPas de numéro de post renseigné");
     }
-
 }

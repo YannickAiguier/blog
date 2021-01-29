@@ -1,2 +1,4 @@
 <?php
-echo 'Hello World !!!';
+
+$request_result = lastBlogPosts($pdo);
+require 'ressources/views/home.tpl.php';

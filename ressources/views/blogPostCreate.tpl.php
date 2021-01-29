@@ -1,7 +1,6 @@
 <main>
-<div id="formulaire">
 <h1>Ecrire un post</h1>
-<form action="index.php?action=createpost" method="POST">
+<form action="index.php?action=blogpostcreate" method="POST">
     <p><label for="formtitle">Titre : </label>
     <input type="text" id="formtitle", name="post-title"></p>
 
@@ -25,13 +24,7 @@
     </datalist></p>
 
     <p><label for="formauthor">Auteur : </label>
-    <input list="authors" id="formauthor" name="post-author"/>
-    <datalist id="authors">
-        // ici faire un foreach avec résultat requête de tous les PSEUDO d'auteurs
-        <?php foreach ($authorsPseudos as $row): ?>
-        <option value="<?=$row['pseudo']?>">
-        <?php endforeach; ?>
-    </datalist></p>
+    <input type="text" id="formauthor" name="post-author"></p>
 
     <p><label for="formcategories">Numéros de catégories (optionnel) : </label>
         <input type="text" id="formcategories" name="post-categories"></p>

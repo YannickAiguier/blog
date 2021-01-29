@@ -1,30 +1,22 @@
-<?php
-require 'header.tpl.php';
-require 'app/persistences/blogPostData.php';
+<?php if (empty($post_result)): ?>
+    <p>Pas de post !!!</p>
+<?php else: ?>
+        <article>
+            <header>
+                <h2><?=$post_result['title']?></h2>
+                <?=$post_result['pseudo']?>
+            </header>
+            <p><?=$post_result['text']?></p>
 
-if (filter_has_var(INPUT_GET, 'id')) {
-    $id_post = (int)filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
-    $request_result = blogPostById($pdo, $id_post);
-    if (empty($request_result)):
-        // pas de post
-        print("\nPas de post !!!");
-    else:
-        foreach ($request_result as $row) {
-            printf("<li>%s : %s / %s</li>", $row['pseudo'], $row['title'], $row['text']);
-        }
-    endif;
-    echo '<br>';
-    $request_result = commentsByBlogPost($pdo, $id_post);
-    if (empty($request_result)):
-        // pas de commentaires
-        print("\nAucun commentaire !!!");
-    else:
-        foreach ($request_result as $row) {
-            printf("<li>%s : %s</li>", $row['pseudo'], $row['comment']);
-        }
-    endif;
-} else {
-    printf("\nPas de numéro de post renseigné");
-}
-
-require 'footer.tpl.php';
+    <?php if (empty($comments_result)): ?>
+               <p>Aucun commentaire !!!</p>
+    <?php else: ?>
+    <section>
+        <?php foreach ($comments_result as $row) : ?>
+            <article>
+                <?=$row['pseudo']?> : <?=$row['comment']?>
+            </article>
+        <?php endforeach; ?>
+    </section>
+    <?php endif; ?>
+<?php endif; ?>

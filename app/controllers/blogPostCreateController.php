@@ -1,6 +1,5 @@
 <?php
 
-//require '../../ressources/views/header.tpl.php';
 require_once 'app/persistences/blogPostData.php';
 
 $articlesTable = "";
@@ -26,19 +25,17 @@ $args = [
 // tester présence $_POST (si présent alors formulaire rempli)
 if (!empty($_POST)) { // traiter les données du formulaire
     $result_form = filter_input_array(INPUT_POST, $args);
+
     // formater les categories en tableau
     $articlesTable = explode(" ", $result_form['post-categories']);
+
     // appeler la fonction d'insertion
     blogPostCreate($pdo, $result_form['post-title'], $result_form['post-text'], $result_form['post-start-date'], $result_form['post-end-date'], $result_form['post-degree'], $result_form['post-author'], $articlesTable);
-    $result_form = array_fill(0, count($result_form), '');
-    header('Location: index.php?action=formulaire_ok');
-} else {
-    // récupérer les noms d'auteurs pour la liste
-    $authorsPseudos = blogAuthorsPseudo($pdo);
 
+    // affichage de la page de confirmation
+    $result_form = array_fill(0, count($result_form), '');
+    header('Location: index.php?action=blogpostcreate_ok');
+
+} else {
     require 'ressources/views/blogPostCreate.tpl.php';
 }
-
-
-//require 'ressources/views/footer.tpl.php';
-
